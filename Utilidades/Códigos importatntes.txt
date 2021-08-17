@@ -1,0 +1,78 @@
+def informarEmpresa(elem):
+  empresa=Sys.Process("PRG010100").VBObject("frmPRG010100").VBObject("picEmpre").VBObject("txtCodEmp")
+  empresa.Keys(elem)
+  empresa.Keys("[Enter]")
+  Delay(1000)
+  
+  if Sys.WaitProcess("PRG010100",100).WaitWindow("#32770", "Atenção", 1,100).Exists:
+    buttonSim= Sys.Process("PRG010100").Window("#32770", "Atenção", 1).Window("Button", "&Sim", 1)
+    buttonSim.clickbutton()
+  else: 
+    fecharRotina=Sys.Process("PRG010100").VBObject("frmPRG010100")
+    fecharRotina.Close()
+    Delay(4000) 
+    return False
+  return True
+
+*********************************************************************************************************
+def selecionarPersonalidade(elem):
+  
+  if elem == "Jurídica":
+    personalidadeJuridica=Sys.Process("PRG010100").VBObject("frmPRG010100").Window("ThunderRT6FormDC", "Dados Básicos", 1).Window("ThunderRT6Frame", "Personalidade", 3).Window("ThunderRT6OptionButton", "Jurídica", 2)
+    personalidadeJuridica.ClickButton()
+  else:
+    personalidadeFisica=Sys.Process("PRG010100").VBObject("frmPRG010100").Window("ThunderRT6FormDC", "Dados Básicos", 1).Window("ThunderRT6Frame", "Personalidade", 3).Window("ThunderRT6OptionButton", "Física", 1)
+    personalidadeFisica.ClickButton()
+***********************************************************************************************************
+def clicarAbaClassificacaoTributaria():
+  classificasaoTributaria=Sys.Process("PRG010100").VBObject("frmPRG010100").VBObject("frmFolha").VBObject("picESocial").Window("XTPDockingPaneTabbedContainer", "", 1).VBObject("frmESocial").VBObject("fraEfdSocial").VBObject("ctlTabControlOpcoesESocial")
+  OCR.Recognize(classificasaoTributaria).BlockByText("Classificação").Click()
+***********************************************************************************************************
+def aguardarTelaDiagnostico():
+  Log.Enabled=False
+  while True: 
+    if Sys.Process("PRG010900").VBObject("mdiPrincipal").Window("MDIClient", "", 1).VBObject("frmExclusaoEmpresa").VBObject("tabProcessos").VBObject("pbDiagnostico").Value== Sys.Process("PRG010900").VBObject("mdiPrincipal").Window("MDIClient", "", 1).VBObject("frmExclusaoEmpresa").VBObject("tabProcessos").VBObject("pbDiagnostico").Max:
+      break
+  Log.Enabled=True
+*********************************************************************************************************
+def status(elem,resultado):
+  status= Sys.Process("GpsSst").WinFormsObject("frmCadastroAgenteNocivo").WinFormsObject("tabelControlAgenteNocivo").WinFormsObject("tabPageAgenteNocivo").WinFormsObject("AgenteNocivoInformacaoControl").WinFormsObject("panelFormularioAgenteNocivo").WinFormsObject("cmbStatus")
+  status.ClickItem(elem)
+  Utilidades.AssertEqual(resultado,status.wText)  
+#  Log.Message(status.wText)
+  
+#def teste():
+#  var="clayton"
+#  var=var[2:]
+#  Log.message(var)
+**********************************************************************************************************
+def incluirCodigoAgenteNocivo(elem,resultado):
+  incluirCodigoAgenteNocivo= Sys.Process("GpsSst").WinFormsObject("frmCadastroAgenteNocivo").WinFormsObject("tabelControlAgenteNocivo").WinFormsObject("tabPageAgenteNocivo").WinFormsObject("AgenteNocivoInformacaoControl").WinFormsObject("panelFormularioAgenteNocivo").WinFormsObject("dPesqAgenteNocivoOficial").WinFormsObject("tableLayoutPanel1").WinFormsObject("txt_search")
+  incluirCodigoAgenteNocivo.DblClick()
+  incluirCodigoAgenteNocivo.Keys(elem)
+  incluirCodigoAgenteNocivo.Keys("[Enter]")
+  Utilidades.AssertEqual(resultado,(incluirCodigoAgenteNocivo.wText)[:].replace(" ",""))
+**********************************************************************************************************
+def clicarExcluiremUsoLote(elem):
+  clicarExcluir= Sys.Process("GPSSST").WinFormsObject("frmPrincipal").WinFormsObject("sctMenu").WinFormsObject("SplitterPanel", "", 2).WinFormsObject("ListaAgenteNocivoControl").WinFormsObject("panelCabecalho").WinFormsObject("ListaCabecalhoControl").WinFormsObject("flowLayoutPanelAddRemove").WinFormsObject("btnExcluir")
+  clicarExcluir.Click()
+  confirma=Sys.Process("GPSSST").Window("#32770", "Atenção", 1).Window("Button", "&Sim", 1)
+  confirma.Click()
+  validaExcluir= Sys.Process("GPSSST").Window("#32770", "Atenção", 1).Window("Static", "Um ou mais cadastros estão em uso e não foram excluídos.\r\n\r\nEm alternativa a exclusão é possível alterar o campo status para \"inativo\", evitando que sejam utilizados novamente e mantendo seu histórico de utilização.", 2)
+  Utilidades.AssertEqual(elem,validaExcluir.WndCaption.replace("\n","").replace("\r",""))
+  if Sys.WaitProcess("GPSSST",100).WaitWindow("#32770", "Atenção", 1,100).Exists:
+    clickButton=Sys.Process("GPSSST").Window("#32770", "Atenção", 1).Window("Button", "OK", 1)
+    clickButton.ClickButton()
+************************************************************************************************************
+def logLimiteDeTolerancia(resultado):
+  logLimiteDeTolerancia= Sys.Process("GpsSst").WinFormsObject("frmCadastroAgenteNocivo").WinFormsObject("tabelControlAgenteNocivo").WinFormsObject("tabPageAgenteNocivo").WinFormsObject("AgenteNocivoInformacaoControl").WinFormsObject("panelFormularioAgenteNocivo").WinFormsObject("txtLimiteTolerancia")  
+  Utilidades.AssertEqual(resultado,(logLimiteDeTolerancia.wText)[:].replace(" ",""))
+*************************************************************************************************************
+def fimExclusaoAgenteNocivo():
+  Log.Message("Fim do Processamento Exclusao Agente Nocivo")
+************************************************************************************************************
+def msgManut():
+  while Sys.WaitProcess("ManutInvRdm",1000).WaitWindow("#32770", "Atenção", 1,1000).Exists:
+    Delay(1000)
+  dat=Sys.Process("ManutInvRdm").Window("#32770", "Atenção", 1).Window("Button", "OK", 1)
+  dat.Click()
