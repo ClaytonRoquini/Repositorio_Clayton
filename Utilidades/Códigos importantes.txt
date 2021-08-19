@@ -76,3 +76,16 @@ def msgManut():
     Delay(1000)
   dat=Sys.Process("ManutInvRdm").Window("#32770", "Atenção", 1).Window("Button", "OK", 1)
   dat.Click()
+**************************************************************************************************************
+def teste():
+  
+    
+  Project.Variables.teste.Reset()
+  while not Project.Variables.teste.IsEOF():     
+    if Project.Variables.teste.Value["executar2"] == "x":
+    
+      
+      Page_Tempo_de_Servico.empresa(Project.Variables.teste.Value["Empresa"])  
+          
+
+    Project.Variables.teste.Next()
