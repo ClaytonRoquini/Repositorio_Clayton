@@ -89,3 +89,45 @@ def teste():
           
 
     Project.Variables.teste.Next()
+
+*******************************************************************************************
+git branch - verifica qual branch esta
+git status - verifica oq temn de novo
+git add . - seleciona todas as pendencias
+git status - verifica oq tem de novo(verde)
+git commit -m "teste"
+git push origin dev - sobe para dev
+git checkout master - muda branch para master
+git merge dev
+git add -A(Ou git add .) - seleciona todas as pendencias
+git commit -m "teste"
+
+git checkout -b dev (Criar branch localcheckout -b)
+git checkout -d dev (deletar branch local)
+git push origin :1095(Excluir Branch na nuvem)
+
+git clone --branch dev +url  (Clonar)
+
+git diff (compara as mudanças antesd e comitar)
+------------------------------------------------
+git stash (deixa em suspenso sua alteração para poder subir outra hora)
+git stash apply(Retorna alteração suspensa)
+git stash clear(limpa todos stash)
+git stash list(lista todos stash)
+---------------------------------------------------
+git config --global alias.s status(atalhos para comandos mais usados)
+
+git tag -a 1.0.0 -m "teste"
+git tag
+git push origin master --tags
+git tag -d 1.0.0 (apaga tag local)
+git push origin :1.0.0
+------------------------------------
+Para remover uma branch (ramo) local no Git, basta rodar o seguinte comando(Não pode estar na branch que deseja excluir:
+git branch -d nome-da-branch
+git branch -D nome-da-branch
+(Nos comandos acima, -d é um comando para --delete e -D é um comando para --delete --force.)
+Remover branch na nuvem
+git push origin --delete nome-da-branch
+git push origin :nome-da-branch
+-------------------------------------
