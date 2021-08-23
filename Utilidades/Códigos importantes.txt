@@ -131,3 +131,8 @@ Remover branch na nuvem
 git push origin --delete nome-da-branch
 git push origin :nome-da-branch
 -------------------------------------
+
+****************************************************************************
+Retira todos os espaços da frente e costa
+Utilidades.AssertEqual(param1 ,(validaNome._Default.strip()))
+
