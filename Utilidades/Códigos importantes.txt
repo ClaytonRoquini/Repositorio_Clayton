@@ -136,3 +136,8 @@ git push origin :nome-da-branch
 Retira todos os espaços da frente e costa
 Utilidades.AssertEqual(param1 ,(validaNome._Default.strip()))
 
+****************************************************************************
+def test():
+  s= "teste = 2"
+  pos = s.rfind('=')
+  Log.Message(s[pos+1:].strip())
